@@ -200,8 +200,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const data = await getChampionDetailsById(champId);
 
-      const skinId = pickSplashSkinId(data);
-      setModalSplash(buildSplashUrl(champId, `${champId}000`));
+      const skinId = pickSplashSkinId(data, champId);
+      setModalSplash(buildSplashUrl(champId, skinId));
 
       const note = buildInterestingNote(data, champName);
       modalNoteText.textContent = note;
@@ -211,26 +211,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function pickSplashSkinId(data) {
-    if (data?.skins && Array.isArray(data.skins) && data.skins.length > 0) {
-      const base = data.skins.find((s) => s.isBase);
-      if (base?.id !== undefined) return base.id;
-      if (data.skins[0]?.id !== undefined) return data.skins[0].id;
-    }
-    return 0;
+  function pickSplashSkinId(data, champId) {
+  // 1) Intentar base skin por flag
+  if (data?.skins && Array.isArray(data.skins) && data.skins.length > 0) {
+    const base = data.skins.find(s => s.isBase);
+    if (base?.id !== undefined) return base.id;
+
+    // 2) Fallback: primer skin con id
+    const first = data.skins.find(s => s.id !== undefined);
+    if (first) return first.id;
   }
+
+  // 3) Fallback matemático: champId * 1000
+  return parseInt(champId, 10) * 1000;
+}
 
   async function getChampionDetailsById(champId) {
-    if (championDetailsCache.has(champId)) return championDetailsCache.get(champId);
+  if (championDetailsCache.has(champId)) return championDetailsCache.get(champId);
 
-    const url = `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/es_es/v1/champions/${champId}.json`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const urls = [
+    `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champions/${champId}.json`,
+    // si algún día quieres intentar locale, aquí podrías añadirlo, pero default es el seguro
+  ];
 
-    const data = await response.json();
-    championDetailsCache.set(champId, data);
-    return data;
+  let lastError = null;
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      championDetailsCache.set(champId, data);
+      return data;
+    } catch (e) {
+      lastError = e;
+    }
   }
+  throw lastError;
+}
 
   function buildInterestingNote(data, fallbackName) {
     const name = data?.name || fallbackName || "Este campeón";
