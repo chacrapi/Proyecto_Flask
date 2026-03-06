@@ -243,3 +243,10 @@ La información “interesante” se carga bajo demanda con fetch() para:
 reducir carga inicial
 
 demostrar peticiones asíncronas
+
+
+## 9 Fallos a Corregir
+
+No se ha llegado a corregir problema con Splasahrts, la Función pickSplashSkinId de Static/scripts/searchbar.js no funciona Correctamente.
+
+No he logrado llegar a conectar con la info de la API de forma correcta.
