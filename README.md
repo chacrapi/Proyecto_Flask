@@ -26,11 +26,6 @@ Se implementa un servidor Flask (`app.py`) para:
 - Servir recursos estáticos (`static/`)
 - Consumir la API externa desde servidor (con `requests`) y pasar datos a la vista.
 
-### 2.4 Entrega
-Este README está preparado como **Opción A**: documentación + código completo al final.
-
----
-
 ## 3. Arquitectura general (cliente-servidor)
 
 **Servidor (Flask)**
