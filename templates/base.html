@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}LoL Champions{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename ='Img/fav-icon.jpg')}}">
+</head>
+<body>
+    <header class="main-header">
+        <h1>League of Legends - Campeones</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Inicio</a>
+            <a href="{{ url_for('champions') }}">Lista de campeones</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Carga tu searchbar.js -->
+    <script src="{{ url_for('static', filename='/scripts/searchbar.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Campeones{% endblock %}
+
+{% block content %}
+<section>
+    <h2>Lista de Campeones</h2>
+    <p class="subtitle">Datos obtenidos desde CommunityDragon (API pública)</p>
+
+    <input
+        type="text"
+        id="championSearch"
+        placeholder="Buscar campeón..."
+        class="search-input"
+        autocomplete="off"
+    >
+
+    {% if champions %}
+        <div class="champion-container" id="championContainer">
+            {% for champ in champions %}
+                <div 
+                    class="champion-card"
+                    data-name="{{ champ.name | lower }}"
+                    data-alias="{{ champ.alias | lower }}"
+                    data-display-name="{{ champ.name }}"
+                    data-id="{{ champ.id }}"
+                    data-roles="{% if champ.roles %}{{ champ.roles | join(',') | lower }}{% else %}{% endif %}"
+                >
+                    <img
+                        src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ champ.id }}.png"
+                        alt="{{ champ.name }}"
+                        loading="lazy"
+                    >
+                    <p class="champion-name">{{ champ.name }}</p>
+                    <!-- ID y alias ocultos (ya no se muestran) -->
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No se pudieron cargar los campeones en este momento.</p>
+    {% endif %}
+</section>
+
+<!-- POP UP Más Info... -->
+<div id="championModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalChampionName">
+        <button class="modal-close" id="modalClose" aria-label="Cerrar popup">&times;</button>
+
+        <div class="modal-header">
+            <img id="modalChampionIcon" src="" alt="" class="modal-champion-icon">
+            <div>
+                <h3 id="modalChampionName">Campeón</h3>
+                <p id="modalChampionAlias" class="modal-subtitle"></p>
+            </div>
+        </div>
+
+        <div class="modal-section">
+            <h4>Líneas recomendadas</h4>
+            <div id="modalLanes" class="lane-list"></div>
+        </div>
+
+        <div class="modal-section">
+            <h4>Nota</h4>
+            <p class="modal-note">
+                Recomendación orientativa para el proyecto (puede variar según parche/meta).
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
