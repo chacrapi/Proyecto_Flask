@@ -275,3 +275,43 @@ body.modal-open {
     display: inline-block;
     flex-shrink: 0;
 }
+/* El modal tendrá un "fondo splash" por CSS variable */
+.modal-content {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Imagen de splash (debajo del contenido) */
+.modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--modal-splash, none);
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+}
+
+/* Overlay oscuro + degradado para legibilidad */
+.modal-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(17, 26, 36, 0.65) 0%,
+    rgba(17, 26, 36, 0.85) 55%,
+    rgba(17, 26, 36, 0.95) 100%
+  );
+}
+
+/* El contenido del modal por encima del splash */
+.modal-body {
+  position: relative;
+  z-index: 2;
+}
+
+/* Botón cerrar por encima de todo */
+.modal-close {
+  z-index: 3;
+}

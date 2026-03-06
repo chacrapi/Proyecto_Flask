@@ -19,12 +19,12 @@
         <div class="champion-container" id="championContainer">
             {% for champ in champions %}
                 <div 
-                    class="champion-card"
-                    data-name="{{ champ.name | lower }}"
-                    data-alias="{{ champ.alias | lower }}"
-                    data-display-name="{{ champ.name }}"
-                    data-id="{{ champ.id }}"
-                    data-roles="{% if champ.roles %}{{ champ.roles | join(',') | lower }}{% else %}{% endif %}"
+                class="champion-card"
+                data-name="{{ champ.name }}"
+                data-alias="{{ champ.alias }}"
+                data-display-name="{{ champ.name }}"
+                data-id="{{ champ.id }}"
+                data-roles="{% if champ.roles %}{{ champ.roles | join(',') | lower }}{% else %}{% endif %}"
                 >
                     <img
                         src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champion-icons/{{ champ.id }}.png"
@@ -41,32 +41,34 @@
     {% endif %}
 </section>
 
-<!-- POP UP Más Info... -->
+<!-- POPUP / MODAL -->
 <div id="championModal" class="modal hidden" aria-hidden="true">
-    <div class="modal-overlay" id="modalOverlay"></div>
+  <div class="modal-overlay" id="modalOverlay"></div>
 
-    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalChampionName">
-        <button class="modal-close" id="modalClose" aria-label="Cerrar popup">&times;</button>
+  <!-- le ponemos id para cambiar el fondo desde JS -->
+  <div id="modalContent" class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalChampionName">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar popup">&times;</button>
 
-        <div class="modal-header">
-            <img id="modalChampionIcon" src="" alt="" class="modal-champion-icon">
-            <div>
-                <h3 id="modalChampionName">Campeón</h3>
-                <p id="modalChampionAlias" class="modal-subtitle"></p>
-            </div>
+    <!-- Todo el contenido en un wrapper para que quede por encima del splash -->
+    <div class="modal-body">
+      <div class="modal-header">
+        <img id="modalChampionIcon" src="" alt="" class="modal-champion-icon">
+        <div>
+          <h3 id="modalChampionName">Campeón</h3>
+          <!-- Quitamos alias visible -->
         </div>
+      </div>
 
-        <div class="modal-section">
-            <h4>Líneas recomendadas</h4>
-            <div id="modalLanes" class="lane-list"></div>
-        </div>
+      <div class="modal-section">
+        <h4>Líneas recomendadas</h4>
+        <div id="modalLanes" class="lane-list"></div>
+      </div>
 
-        <div class="modal-section">
-            <h4>Nota</h4>
-            <p class="modal-note">
-                Recomendación orientativa para el proyecto (puede variar según parche/meta).
-            </p>
-        </div>
+      <div class="modal-section">
+        <h4>Dato interesante</h4>
+        <p id="modalNoteText" class="modal-note">Haz clic en un campeón para ver una nota interesante.</p>
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
