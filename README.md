@@ -62,7 +62,7 @@ La aplicación usa endpoints públicos (sin API key) de CommunityDragon:
   `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/champions/{championId}.json`
 - **Uso** (frontend con `fetch`): extraer `title`, `shortBio`, `tacticalInfo`, `skins`, etc.
 
-> Nota: Se intentó añadir splash art como fondo del popup. En algunos casos devolvía 404 por formato de URL/ID de skin. La funcionalidad está documentada en el código como “feature experimental” (puede activarse o sustituirse por Data Dragon si se desea).
+> Nota: Se intentó añadir splash art como fondo del popup. En algunos casos devolvía 404 por formato de URL/ID de skin. La funcionalidad está documentada en el código como “feature experimental”.
 
 ---
 
